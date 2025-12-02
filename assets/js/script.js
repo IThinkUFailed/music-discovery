@@ -1,8 +1,34 @@
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search-input');
-let clientId;
-let clientSecret;
+const searchBtn = document.getElementById('search-btn');
+const pageContainer = document.getElementById('page-container');
+let clientId
+let clientSecret
 
+let isLoading = false;
+
+function handleLoading() {
+    isLoading = true
+    if (isLoading) {
+        searchInput.value = "Loading...";
+        searchInput.classList.add("animate-pulse")
+        searchInput.classList.add("text-grey-800/25")
+        searchInput.classList.add("dark:text-grey-800/25")
+
+        searchBtn.classList.add("opacity-50")
+        searchBtn.classList.add("cursor-not-allowed")
+        isLoading = false;
+        pageContainer.classList.remove("hidden")
+        searchInput.classList.remove("animate-pulse")
+        searchInput.classList.remove("text-grey-800/25")
+        searchInput.classList.remove("dark:text-grey-800/25")
+        searchBtn.classList.remove("opacity-50")
+        searchBtn.classList.remove("cursor-not-allowed")
+        searchInput.value = ""
+    } else if (searchInput.length === 0) {
+        return
+    }
+}
 
 async function getSpotifyToken() {
     let url = 'https://accounts.spotify.com/api/token'
@@ -28,6 +54,7 @@ async function getSpotifyToken() {
 
 async function searchArtist(name) {
     if (name.length === 0) {
+        searchBtn.classList.add("disabled")
         console.log("no name provided")
         return
     } else {
@@ -48,7 +75,7 @@ async function searchArtist(name) {
     console.log(artistId)
     const trackArray = await searchArtistTracks(artistId, token);
     const albumArray = await searchArtistAlbums(artistId, token);
-
+    console.log(artist[0].external_urls)
     const result = {
         name: artist[0].name,
         id: artist[0].id,
@@ -66,7 +93,7 @@ async function searchArtist(name) {
 async function searchArtistTracks(artistId, token) {
     
     const trackArray = []
-    const maxResults = 6;
+    const maxResults = 10
 
     const topTracksUrl = `https://api.spotify.com/v1/artists/${artistId}/top-tracks`;
 
@@ -77,10 +104,10 @@ async function searchArtistTracks(artistId, token) {
     let topTracksData = await topTrackResponse.json()
     console.log(topTracksData)
     topTracksData = topTracksData["tracks"];
-        for (let i = 0; i < topTracksData.length; i++) {
-        console.log(topTracksData[i].name)
+        for (let i = 0; i < topTracksData.length && i < maxResults; i++) {
+        //console.log(topTracksData[i].name)
         trackArray.push(topTracksData[i].name)
-        console.log(trackArray)
+        //console.log(trackArray)
     }
     console.log("Success! <-- searchArtistTracks")
     return trackArray;
@@ -101,20 +128,24 @@ async function searchArtistAlbums(artistId, token) {
     const maxResults = 6;
     const albumArray = []
         for (let i = 0; i < albums.length && i < maxResults; i++) {
-        console.log(albums[i].name)
+        //console.log(albums[i].name)
         albumArray.push(albums[i].name)
-        console.log(albumArray)
+        //console.log(albumArray)
     }
 
 
 }
 
 searchForm.addEventListener('submit', function (event) {
-    event.preventDefault();
+        event.preventDefault();
+        console.log(searchInput.value)
+    if (searchInput.value.trim() !== "") {
+        handleLoading()
+        console.log(searchInput.value.trim())
+        searchArtist(searchInput.value.trim())
 
-    console.log(searchInput.value.trim())
-    getSpotifyToken()
-    searchArtist(searchInput.value.trim())
+    }
+
 
 
 

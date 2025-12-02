@@ -1,0 +1,16 @@
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+
+#artist-img {
+    max-width: 128px;
+    border-radius:90;
+    border: 6px solid #262626
+}
+
+.icon {
+  display: inline-block; 
+  width: 22px;
+  height: 22px;
+  margin-right: 6px;
+}
+
