@@ -1,7 +1,7 @@
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search-input');
-let id = '0b814e9a11ed46b5b2c9e391dbfa245f';
-let secret = '236bf3a108ba45abb331781670bfb8ff';
+let id
+let secret
 
 // getting a token works
 // when searching an id we can successfully retrieve our artist name
