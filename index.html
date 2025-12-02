@@ -8,35 +8,23 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
 </head>
-<body class="bg-neutral-950 text-white font-inter antialiased">
-<nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 rounded-md bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-black font-bold">ME</div>
-<div>
-<a href="#" class="text-xl font-extrabold">Music Explorer</a>
-<div class="text-xs text-gray-400">Spotify + TasteDive demo</div>
-</div>
-</div>
-<div class="flex items-center gap-3">
-<label for="toggle-theme" class="sr-only">Toggle theme</label>
-<button id="theme-toggle" aria-pressed="false" class="px-3 py-2 rounded-md bg-neutral-800 hover:bg-neutral-800/70">Toggle</button>
-<a href="#footer" class="text-sm text-gray-400 hover:text-white">About</a>
-</div>
-</nav>
-
-
-
-<!-- Search -->
-<form id="search-form" class="mt-8 flex items-center gap-3 justify-center" role="search">
+<body class="bg-neutral-950 text-white font-inter">
+  <form id="search-form" class="mt-8 flex items-center gap-3 justify-center" role="search">
 <label for="search-input" class="sr-only">Artist name</label>
 <input id="search-input" name="q" type="search" placeholder="e.g. Tame Impala" autocomplete="off"
 class="w-72 md:w-96 px-4 py-3 rounded-2xl bg-neutral-900 border border-neutral-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
 <button id="search-btn" class="px-4 py-3 rounded-2xl bg-emerald-500 text-black font-medium hover:bg-emerald-400">Search</button>
 </form>
+<main class="max-w-4xl mx-auto px-6 py-10 space-y-12">
+  <section id="artist-panel">
+    <aside class="p-6 rounded-3xl shadow-lg border border-neutral-800 flex flex-col gap-4">
+      <div class="grid grid-cols-1 grid-rows-1 gap-8">
+      <h3>Artist</h3>
 
-
-
-
+    </aside>
+    </section>
+</div>
+</main>
 </body>
 <script src="./assets/js/script.js">
 
