@@ -14,3 +14,18 @@
   margin-right: 6px;
 }
 
+#search-hero:focus-within {
+    margin-top:10px;
+    margin-bottom:80px;
+    scale: 1.2;
+    font-size: 125%;
+    font-weight:700;
+}
+
+#search-hero{
+    margin-bottom:10px;
+    transition-duration: 500ms;
+    scale: 1;
+    font-size: 125%;
+
+}
