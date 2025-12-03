@@ -29,7 +29,7 @@
       </form>
       <p class="text-sm italic text-center text-neutral-600 p-2">Powered by Spotify and TasteDive by <strong><a class="hover:text-green-500" href="https://github.com/dekaythedev">Dekay</a></strong> & <strong><a class="hover:text-green-500" href="https://github.com/IThinkUFailed">IThinkUFailed</a></strong></p>
       </section>
-      <main id="page-container" class="page-container max-w-6xl mx-auto ">
+      <main id="page-container" class="page-container max-w-6xl mx-auto hidden">
       <div id="artist-panel" class="grid grid-cols-1 md:grid-cols-3 gap-12">
         <div class="md:col-span-1 bg-neutral-900 p-6 rounded-3xl border border-neutral-800 shadow-lg text-center">
             <h3 id="artist-name" class="text-4xl mb-2">Artist Name</h3>
@@ -37,7 +37,7 @@
           <br>
           <div class="text-left">
           <p id="followers" class="p-2">
-          <img src="./assets/svg/followers.svg" alt="followers" class="icon">
+          <img id="followersvg" src="./assets/svg/followers.svg" alt="followers" class="icon">
           </p>
           <p id="popularity" class="p-2">
           <img src="./assets/svg/popularity.svg" alt="popularity" class="icon">

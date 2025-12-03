@@ -15,7 +15,6 @@ let clientId;
 let clientSecret;
 let tasteDiveApiKey;
 
-
 let isLoading = false;
 function handleLoading() {
     isLoading = true
