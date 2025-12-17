@@ -201,8 +201,8 @@ followersEl.setAttribute("alt", "Followers")
 
 
 // Set Populariy
-popularityEl.innerHTML = `<img src="./assets/svg/popularity.svg" alt="popularity" class="icon">
-  ${data.popularity}%`;
+popularityEl.innerHTML = `<img src="./assets/svg/popularity.svg" alt="popularity" class="icon">Popular with 
+  ${data.popularity}% of people`;
 
 console.log(data.followers,'<-- followers?')
 for (let i = 0; i < maxResults; i++ ) {
