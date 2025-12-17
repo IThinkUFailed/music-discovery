@@ -1,3 +1,6 @@
+let clientId = '0b814e9a11ed46b5b2c9e391dbfa245f'
+let clientSecret = 'be2dc926649c4bb0abc0d3a9299e6f6f'
+let tasteDiveApiKey = '1063590-Projectf-20AE30DE'
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search-input');
 const searchBtn = document.getElementById('search-btn');
@@ -10,11 +13,7 @@ const followerSvg = document.getElementById('followersvg')
 const popularityEl = document.getElementById('popularity')
 const artistNameEl = document.getElementById('artist-name')
 const artistImg = document.getElementById('artist-img')
-
-let clientId;
-let clientSecret;
-let tasteDiveApiKey;
-
+const listenBtn = document.getElementById('listen-url')
 let isLoading = false;
 function handleLoading() {
     isLoading = true
@@ -80,10 +79,12 @@ async function searchArtist(name) {
    const similarArtists = await findSimilarArtists(name);
     // console.log(similarArtists)
     const data = await responseArtist.json();
+    console.log
     const artist = data.artists["items"]
+    const artistUrl = data.artists["items"][0].external_urls.spotify
     let artistId = data.artists["items"][0].id
     // console.log(artistId)
-    const trackArray = await searchArtistTracks(artistId, token);
+    const {trackArray, trackUrlArray} = await searchArtistTracks(artistId, token);
     const albumArray = await searchArtistAlbums(artistId, token);
     const result = {
         name: artist[0].name,
@@ -94,18 +95,19 @@ async function searchArtist(name) {
         albums: albumArray,
         spotify: artist[0].external_urls.spotify,
         topTracks: trackArray,
-        similarArtists: similarArtists
+        trackUrls: trackUrlArray,
+        similarArtists: similarArtists,
+        listenUrl: artistUrl
     } 
     return result
    }
-
 }
 
 async function searchArtistTracks(artistId, token) {
     
     const trackArray = []
     const maxResults = 10
-
+    const trackUrlArray = []
     const topTracksUrl = `https://api.spotify.com/v1/artists/${artistId}/top-tracks`;
 
     const topTrackResponse = await fetch(topTracksUrl, {
@@ -113,15 +115,18 @@ async function searchArtistTracks(artistId, token) {
     })
 
     let topTracksData = await topTrackResponse.json()
-    console.log(topTracksData)
+    console.log(topTracksData["tracks"])
     topTracksData = topTracksData["tracks"];
+
         for (let i = 0; i < topTracksData.length && i < maxResults; i++) {
         //console.log(topTracksData[i].name)
         trackArray.push(topTracksData[i].name)
+        console.log(topTracksData[i].external_urls.spotify)
+        trackUrlArray.push(topTracksData[i].external_urls.spotify)
         //console.log(trackArray)
     }
     // console.log("Success! <-- searchArtistTracks")
-    return trackArray;
+    return { trackArray, trackUrlArray};
 }
 
 async function searchArtistAlbums(artistId, token) {
@@ -168,53 +173,60 @@ return similarArtists
 }
 
 async function renderCards(name) {
+
+let followerIcon =  "../svg/followers.svg"
 const maxResults = 10;
 let br = document.createElement("br")
 let olSimilar = document.getElementById("artists-list")
 let olAlbums = document.getElementById("album-list")
 let li = document.createElement("li")
 let data = await searchArtist(name)
+const artistUrl = data.listenUrl
 let similarArtists = data.similarArtists.similar.results
 console.log(data.img)
 // Set Artist Card Details
 artistImg.src = data.img[0].url
 // Set Name
-
+console.log(data)
 artistNameEl.innerText = data.name
-
+listenBtn.href = artistUrl
+console.log(listenBtn.href)
 // Set Followers
-followersEl.innerText = data.followers.total += ' followers.'
-followersEl.classList.add("icon")
-followersEl.classList.add("block")
+followersEl.innerHTML = `<img src="./assets/svg/followers.svg" alt="followers" class="icon">
+  ${data.followers.total} followers`;
+
 followersEl.setAttribute("alt", "Followers")
 
 // Set Artist Picture
 
 
 // Set Populariy
-popularityEl.classList.add("icon")
-popularityEl.classList.add("block")
-popularityEl.setAttribute("alt", "Popularity")
-  popularityEl.textContent = data.popularity
+popularityEl.innerHTML = `<img src="./assets/svg/popularity.svg" alt="popularity" class="icon">
+  ${data.popularity}%`;
 
 console.log(data.followers,'<-- followers?')
 for (let i = 0; i < maxResults; i++ ) {
     // console.log(data.topTracks)
-    let newLi = document.createElement("li");
-    newLi.textContent = similarArtists[i].name
-    similarArtistsDiv.append(newLi)
+    let newP = document.createElement("p");
+    newP.textContent = similarArtists[i].name
+    similarArtistsDiv.append(newP)
 
 }
 for (let j = 0; j < maxResults; j++) {
-    let newLi = document.createElement("li");
-    newLi.textContent = data.albums[j]
-    artistAlbumsDiv.append(newLi)
+    let newP = document.createElement("p");
+    newP.textContent = data.albums[j]
+    artistAlbumsDiv.append(newP)
 }
 
 for (let k = 0; k < maxResults; k++) {
-    let newLi = document.createElement("li");
-    newLi.textContent = data.topTracks[k]
-    topTracksDiv.append(newLi)
+    let newA = document.createElement("a");
+    let br = document.createElement("br")
+    newA.textContent = data.topTracks[k]
+    console.log(data.trackUrls[k])
+    newA.href = data.trackUrls[k]
+    topTracksDiv.append(newA)
+    newA.classList.add("hover:text-green-500")
+    topTracksDiv.append(br)
 }
 }
 
@@ -222,13 +234,15 @@ function resetCards(){
     similarArtistsDiv.innerHTML = '<h4><strong>Similar Artists</strong></h4><br>';
     artistAlbumsDiv.innerHTML = "<h4><strong>Albums</strong></h4><br>";
     topTracksDiv.innerHTML = "<h4><strong>Top Tracks</strong></h4><br>";
-    followersEl.innerText = ''
-    popularityEl.innerText = ''
-
+followersEl.innerHTML = `<img src="./assets/svg/followers.svg" alt="followers" class="icon">
+  Loading followers`;
+  popularityEl.innerHTML = `<img src="./assets/svg/popularity.svg" alt="popularity" class="icon">
+  Loading popularity`;
+    listenBtn.href = '#'
 }
 
 
-searchForm.addEventListener('submit', function (event) {
+searchInput.addEventListener('search', function (event) {
         event.preventDefault();
         // console.log(searchInput.value)
     if (searchInput.value.trim() !== "") {
@@ -244,8 +258,9 @@ searchBtn.addEventListener('click', function (event) {
         event.preventDefault();
         // console.log(searchInput.value)
     if (searchInput.value.trim() !== "") {
+        resetCards()
         // console.log(searchInput.value.trim())
-        searchArtist(searchInput.value.trim())
+        renderCards(searchInput.value.trim())
 
     }
 

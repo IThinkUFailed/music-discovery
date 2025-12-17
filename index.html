@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Music Discovery</title>
     <link rel="stylesheet" href="./assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -33,7 +33,7 @@
       <div id="artist-panel" class="grid grid-cols-1 md:grid-cols-3 gap-12">
         <div class="md:col-span-1 bg-neutral-900 p-6 rounded-3xl border border-neutral-800 shadow-lg text-center">
             <h3 id="artist-name" class="text-4xl mb-2">Artist Name</h3>
-          <img id="artist-img" src="https://i.scdn.co/image/ab6761610000e5eb8d8ac7290d0fe2d12fb6e4d9" alt="An image of the artist" class="rounded-full inline mb-4">
+          <img id="artist-img" src="./assets/img/default.jpg" alt="An image of the artist" class="rounded-full inline mb-4">
           <br>
           <div class="text-left">
           <p id="followers" class="p-2">
@@ -45,20 +45,20 @@
           </div>
           <div class="justify-evenly m-1">
 
-          <button id="listen-btn" class="transition delay-50 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-green-500 bg-green-600 rounded-none mt-6 p-3 cursor-pointer">Listen on Spotify</button>
+          <a href="#" id="listen-url"><button id="listen-btn" class="transition delay-50 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-green-500 bg-green-600 rounded-none mt-6 p-3 cursor-pointer">Listen on Spotify</button></a>
           </div>
         </div>
 
 <div class="md:col-span-2 mb-2">
-  <div id="tracks" class="bg-neutral-900 p-6 rounded-xl ">
+  <div id="tracks" class="bg-neutral-900 p-6 rounded-xl text-center ">
     <ol id="track-list"></ol>
   </div>
 </div>
 <div class="md:col-span-1"></div>
-  <div id="artist-albums" class="bg-neutral-900 p-6 rounded-xl">
+  <div id="artist-albums" class="bg-neutral-900 p-6 rounded-xl text-center">
     <ol id="album-list"></ol>
   </div>
-  <div id="similar-artists" class="bg-neutral-900 p-6 rounded-xl">
+  <div id="similar-artists" class="bg-neutral-900 p-6 rounded-xl text-center">
     <h4></h4>
     <ol id="artists-list"></ol>
   </div>
