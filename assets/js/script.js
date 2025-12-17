@@ -1,3 +1,4 @@
+require('dotenv').config();
 let clientId = process.env.SPOTIFY_CLIENT_ID;
 let clientSecret = process.env.SPOTIFY_SECRET_KEY;
 let tasteDiveApiKey = process.env.TASTDIVE_API_KEY;
